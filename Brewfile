@@ -1,0 +1,17 @@
+tap "jesseduffield/lazygit"
+tap "anomalyco/tap"
+
+brew "zoxide"
+brew "cmake"
+brew "lazygit"
+brew "neovim"
+brew "pyenv"
+brew "ripgrep"
+brew "starship"
+brew "wget"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+brew "anomalyco/tap/opencode"
+
+cask "font-caskaydia-mono-nerd-font"
+cask "wezterm"
