@@ -7,6 +7,6 @@ font-style = Bold
 font-size = 13
 
 # Pick a theme with: ghostty +list-themes
-# theme = TokyoNight
+theme = GitHub Dark Default
 
 macos-titlebar-style = tabs
