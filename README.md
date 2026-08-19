@@ -71,14 +71,13 @@ If Homebrew is present, the bootstrap installs these automatically
 
 ```sh
 brew install tmux
-brew install --cask wezterm ghostty font-caskaydia-cove-nerd-font font-caskaydia-mono-nerd-font
+brew install --cask ghostty font-caskaydia-cove-nerd-font font-caskaydia-mono-nerd-font
 ```
 
-Both terminal frontends are configured the same way — CaskaydiaMono Nerd
-Font (Cascadia Code), **bold as the default weight** — via the managed
-`~/.config/wezterm/wezterm.lua` and `~/.config/ghostty/config`. Try both,
-keep one, drop the other from the brew script. (cmux, if preferred, installs
-via its own release — see https://github.com/manaflow-ai/cmux.)
+Ghostty is the terminal frontend, configured by the managed
+`~/.config/ghostty/config`: CaskaydiaMono Nerd Font (Cascadia Code),
+**bold as the default weight**. All multiplexing/persistence lives in the
+remote tmux, so the frontend stays a thin, fast client.
 
 **Important:** CLI dev tools are owned by mise, not brew. If brew-installed
 duplicates exist (node, python, ripgrep, fd, fzf, delta, neovim, …),
@@ -145,11 +144,10 @@ home/
 │   ├── shell/common.sh        # shared aliases/env for both shells
 │   ├── mise/config.toml       # the global toolchain — edit to add tools
 │   ├── nvim/init.lua          # single-file kickstart-derived config
-│   ├── wezterm/wezterm.lua    # macOS-only terminal frontend (bold Caskaydia)
-│   └── ghostty/config         # ditto, for Ghostty
+│   └── ghostty/config         # macOS-only terminal frontend (bold Caskaydia)
 └── .chezmoiscripts/
     ├── run_once_before_10-install-mise.sh.tmpl
     ├── run_once_after_20-mise-install.sh.tmpl
-    ├── run_once_after_25-macos-apps.sh.tmpl   # brew: tmux, wezterm, fonts
+    ├── run_once_after_25-macos-apps.sh.tmpl   # brew: tmux, ghostty, fonts
     └── run_once_after_30-checks.sh.tmpl       # compiler/tmux/claude checks
 ```
