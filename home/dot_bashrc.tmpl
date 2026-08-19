@@ -1,0 +1,26 @@
+# Linux ({{ .role }}). Keep bash as the default shell; do not install zsh.
+
+# Non-interactive shells (scp, agents running commands) still need tools on
+# PATH, but must skip everything interactive. mise shims cover that case.
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
+
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+[ -r /etc/bash.bashrc ] && . /etc/bash.bashrc
+
+# Interactive shells get full mise activation (updates PATH per directory)
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate bash)"
+fi
+
+. "$HOME/.config/shell/common.sh"
+
+HISTSIZE=50000
+HISTFILESIZE=50000
+HISTCONTROL=ignoredups
+shopt -s histappend checkwinsize
+
+PS1='\u@\h:\w\$ '

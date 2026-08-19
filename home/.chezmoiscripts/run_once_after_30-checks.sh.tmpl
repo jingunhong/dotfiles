@@ -1,0 +1,71 @@
+#!/bin/sh
+set -eu
+
+# Post-apply sanity checks. Never installs anything that needs root; the one
+# exception is a static tmux binary into ~/.local/bin when the system has none
+# and we can't get one any other way (the no-root SLE case).
+
+export PATH="$HOME/.local/bin:$PATH"
+
+fail=0
+
+# --- C compiler (needed by nvim-treesitter parser builds) -------------------
+if command -v cc >/dev/null 2>&1 || command -v gcc >/dev/null 2>&1 || command -v clang >/dev/null 2>&1; then
+  echo "ok: C compiler found"
+else
+  fail=1
+  echo "MISSING: no C compiler (cc/gcc/clang)." >&2
+  echo "  nvim-treesitter needs one to build parsers. Installing a toolchain" >&2
+  echo "  is out of scope for dotfiles; ask your admin or use:" >&2
+{{- if eq .chezmoi.os "darwin" }}
+  echo "    xcode-select --install" >&2
+{{- else if eq .role "ubuntu" }}
+  echo "    sudo apt install build-essential" >&2
+{{- else }}
+  echo "    (SLE, no root): request gcc via your machine's dev-tools channel" >&2
+{{- end }}
+fi
+
+# --- tmux --------------------------------------------------------------------
+if command -v tmux >/dev/null 2>&1; then
+  echo "ok: tmux found ($(command -v tmux))"
+else
+{{- if eq .chezmoi.os "darwin" }}
+  fail=1
+  echo "MISSING: tmux. Install it with: brew install tmux" >&2
+{{- else if eq .role "ubuntu" }}
+  fail=1
+  echo "MISSING: tmux. Install it with: sudo apt install tmux" >&2
+{{- else }}
+  # No root on SLE: fall back to a fully static binary in ~/.local/bin.
+  arch="$(uname -m)"
+  if [ "$arch" = "x86_64" ]; then
+    echo "tmux missing; installing static binary into ~/.local/bin"
+    tmpfile="$(mktemp)"
+    curl -fsSL -o "$tmpfile" \
+      https://github.com/mjakob-gh/build-static-tmux/releases/latest/download/tmux.linux-amd64.gz
+    mkdir -p "$HOME/.local/bin"
+    gunzip -c "$tmpfile" > "$HOME/.local/bin/tmux"
+    rm -f "$tmpfile"
+    chmod +x "$HOME/.local/bin/tmux"
+    echo "ok: static tmux installed ($("$HOME/.local/bin/tmux" -V))"
+  else
+    fail=1
+    echo "MISSING: tmux, and no static build for $arch." >&2
+    echo "  See https://github.com/mjakob-gh/build-static-tmux" >&2
+  fi
+{{- end }}
+fi
+
+# --- Claude Code (installs via its native installer, not via mise) ----------
+if command -v claude >/dev/null 2>&1; then
+  echo "ok: claude found"
+else
+  echo "note: Claude Code not installed. Install with:"
+  echo "  curl -fsSL https://claude.ai/install.sh | bash"
+fi
+
+if [ "$fail" -ne 0 ]; then
+  echo "checks finished with missing pieces (see above); dotfiles are applied" >&2
+fi
+exit 0

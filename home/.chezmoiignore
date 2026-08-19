@@ -1,0 +1,6 @@
+# Only manage the rc file for the shell each OS actually uses.
+{{ if eq .chezmoi.os "darwin" }}
+.bashrc
+{{ else }}
+.zshrc
+{{ end }}

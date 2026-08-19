@@ -1,0 +1,16 @@
+# Global toolchain, owned by mise on all three machines (suse / ubuntu / mac).
+# Everything installs under ~/.local/share/mise — no root needed.
+# To add or upgrade a tool: edit this file, then `chezmoi apply && mise install`.
+
+[tools]
+python = "3.12"
+node = "22"
+# vim.pack (built-in plugin manager) requires neovim >= 0.12
+neovim = "latest"
+ripgrep = "latest"
+fd = "latest"
+fzf = "latest"
+delta = "latest"
+uv = "latest"
+# needed by nvim-treesitter to build parsers
+tree-sitter = "latest"

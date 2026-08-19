@@ -1,0 +1,22 @@
+# macOS ({{ .role }}).
+
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
+
+[[ -o interactive ]] || return
+
+# mise must come before Homebrew in PATH so mise-managed CLIs win over any
+# leftover brew-installed duplicates (brew is for GUI apps and fonts only).
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
+
+source "$HOME/.config/shell/common.sh"
+
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt hist_ignore_dups share_history
+
+autoload -Uz compinit && compinit
+
+PROMPT='%n@%m:%~ %# '

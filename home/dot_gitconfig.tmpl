@@ -1,0 +1,28 @@
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+
+[core]
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+# delta is the core diff-review tool: `git log -p`, `git diff`, etc. all page
+# through it.
+[delta]
+	navigate = true
+	line-numbers = true
+	hyperlinks = false
+
+[merge]
+	conflictstyle = zdiff3
+
+[diff]
+	algorithm = histogram
+
+[init]
+	defaultBranch = main
+
+[push]
+	autoSetupRemote = true

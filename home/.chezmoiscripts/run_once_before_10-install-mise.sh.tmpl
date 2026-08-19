@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# mise bootstraps everything else, so it must exist before the dotfiles that
+# reference it are useful. Installs a single static binary into ~/.local/bin.
+
+if command -v mise >/dev/null 2>&1 || [ -x "$HOME/.local/bin/mise" ]; then
+  echo "mise already installed"
+  exit 0
+fi
+
+MISE_INSTALL_PATH="$HOME/.local/bin/mise" \
+  sh -c "$(curl -fsSL https://mise.run)"
+
+"$HOME/.local/bin/mise" --version

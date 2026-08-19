@@ -1,0 +1,9 @@
+{{- /* Asked once per machine; answers are stored in the local chezmoi config. */ -}}
+{{- $role := promptStringOnce . "role" "Machine role (suse / ubuntu / mac)" -}}
+{{- $name := promptStringOnce . "name" "Git author name" "Jingun Hong" -}}
+{{- $email := promptStringOnce . "email" "Git author email" "jingun.hong@gmail.com" -}}
+
+[data]
+    role = {{ $role | quote }}
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}

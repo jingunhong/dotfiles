@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# Runs after dotfiles are applied so ~/.config/mise/config.toml is in place.
+
+export PATH="$HOME/.local/bin:$PATH"
+
+mise install --yes
+mise list
