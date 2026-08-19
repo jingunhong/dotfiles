@@ -92,6 +92,8 @@ vim.pack.add {
   gh 'folke/tokyonight.nvim',
   gh 'lewis6991/gitsigns.nvim',
   gh 'stevearc/oil.nvim',
+  gh 'nvim-tree/nvim-web-devicons',
+  gh 'nvim-tree/nvim-tree.lua',
   gh 'ibhagwan/fzf-lua',
   gh 'neovim/nvim-lspconfig',
   gh 'mason-org/mason.nvim',
@@ -117,6 +119,13 @@ vim.keymap.set('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>', { desc = 'Pr
 -- File browsing: edit the filesystem like a buffer
 require('oil').setup()
 vim.keymap.set('n', '-', '<cmd>Oil<CR>', { desc = 'Open parent directory' })
+
+-- File tree side panel; oil keeps ownership of directory buffers
+require('nvim-tree').setup {
+  hijack_netrw = false,
+  view = { width = 32 },
+}
+vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>', { desc = 'Toggle file [E]xplorer' })
 
 -- ============================================================
 -- Fuzzy finding (fzf-lua)
