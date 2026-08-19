@@ -17,6 +17,23 @@ HISTSIZE=50000
 SAVEHIST=50000
 setopt hist_ignore_dups share_history
 
+# Completion: arrow-key menu, case-insensitive matching, colored entries.
 autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-PROMPT='%n@%m:%~ %# '
+# Plugins vendored by chezmoi (.chezmoiexternal.toml) — no framework needed.
+source "$HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+# fzf keybindings: Ctrl-R fuzzy history, Ctrl-T file picker, Alt-C cd.
+command -v fzf >/dev/null 2>&1 && source <(fzf --zsh)
+
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+else
+  PROMPT='%n@%m:%~ %# '
+fi
+
+# Syntax highlighting must be sourced after all other ZLE/widget setup.
+source "$HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

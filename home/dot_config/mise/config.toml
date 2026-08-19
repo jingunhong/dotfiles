@@ -11,6 +11,7 @@ ripgrep = "latest"
 fd = "latest"
 fzf = "latest"
 delta = "latest"
+starship = "latest"
 uv = "latest"
 # needed by nvim-treesitter to build parsers
 tree-sitter = "latest"

@@ -23,4 +23,11 @@ HISTFILESIZE=50000
 HISTCONTROL=ignoredups
 shopt -s histappend checkwinsize
 
-PS1='\u@\h:\w\$ '
+# fzf keybindings: Ctrl-R fuzzy history, Ctrl-T file picker, Alt-C cd.
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
+
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+else
+  PS1='\u@\h:\w\$ '
+fi
