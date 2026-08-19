@@ -4,9 +4,24 @@
 font-family = CaskaydiaMono Nerd Font
 # Bold as the default weight
 font-style = Bold
-font-size = 13
+font-size = 15
 
 # Pick a theme with: ghostty +list-themes
 theme = GitHub Dark Default
 
+# Initial window size, in terminal grid cells (applies to new windows)
+window-width = 120
+window-height = 40
+
+# Reopen windows/tabs where they left off after quit
+window-save-state = always
+
 macos-titlebar-style = tabs
+
+# Make the Option key send Alt so bindings like fzf's Alt-C work
+macos-option-as-alt = true
+
+# Selecting text copies it straight to the system clipboard
+copy-on-select = clipboard
+
+mouse-hide-while-typing = true
