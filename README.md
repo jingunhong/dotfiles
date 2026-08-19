@@ -19,10 +19,11 @@ into `$HOME` — no root needed anywhere.
 On any fresh machine (Linux or macOS):
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jingunhong/dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply jingunhong/dotfiles
 ```
 
-This installs chezmoi into `~/.local/bin`, clones this repo, prompts once for
+This installs chezmoi into `~/.local/bin` (the `/lb` suffix; the default
+installs into `./bin`), clones this repo, prompts once for
 the machine role and git identity, applies all dotfiles, installs mise, and
 runs `mise install` for the whole toolchain. Safe to re-run.
 
@@ -38,7 +39,7 @@ You will be prompted for:
 Non-interactive (e.g. provisioning scripts):
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jingunhong/dotfiles \
+sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply jingunhong/dotfiles \
   --promptString "Machine role (suse / ubuntu / mac)=ubuntu" \
   --promptString "Git author name=Jingun Hong" \
   --promptString "Git author email=jingun.hong@gmail.com"
