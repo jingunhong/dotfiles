@@ -3,4 +3,6 @@
 .bashrc
 {{ else }}
 .zshrc
+.config/wezterm
+.config/ghostty
 {{ end }}

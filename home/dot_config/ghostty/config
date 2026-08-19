@@ -1,0 +1,12 @@
+# Ghostty (macOS terminal frontend, alternative to WezTerm).
+# Docs: https://ghostty.org/docs/config
+
+font-family = CaskaydiaMono Nerd Font
+# Bold as the default weight
+font-style = Bold
+font-size = 13
+
+# Pick a theme with: ghostty +list-themes
+# theme = TokyoNight
+
+macos-titlebar-style = tabs

@@ -1,0 +1,21 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+set -eu
+
+# GUI apps, fonts, and tmux are the one thing Homebrew owns on macOS (all CLI
+# dev tools belong to mise). Installing brew itself needs admin rights, so
+# don't attempt that here.
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "note: Homebrew not installed; skipping GUI apps and fonts." >&2
+  echo "  Install it (https://brew.sh), then run:" >&2
+  echo "  brew install tmux && brew install --cask wezterm font-caskaydia-cove-nerd-font font-caskaydia-mono-nerd-font" >&2
+  exit 0
+fi
+
+brew list tmux >/dev/null 2>&1 || brew install tmux
+
+for cask in wezterm ghostty font-caskaydia-cove-nerd-font font-caskaydia-mono-nerd-font; do
+  brew list --cask "$cask" >/dev/null 2>&1 || brew install --cask "$cask"
+done
+{{ end -}}

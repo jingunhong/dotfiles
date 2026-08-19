@@ -12,7 +12,7 @@ into `$HOME` — no root needed anywhere.
 | Runtimes + CLI tools | mise (python, node, neovim ≥ 0.12, ripgrep, fd, fzf, delta, uv, tree-sitter) |
 | Editor | Neovim, kickstart-derived config on `vim.pack` (fzf-lua, oil.nvim, gitsigns, mason; clangd + basedpyright + ruff) |
 | Diff review | delta as git pager |
-| macOS Homebrew | GUI apps and fonts ONLY |
+| macOS Homebrew | GUI apps, fonts, and tmux ONLY |
 
 ## Setup
 
@@ -54,22 +54,31 @@ servers (clangd, basedpyright, ruff) on first launch.
   parsers. macOS: `xcode-select --install`. Ubuntu:
   `sudo apt install build-essential`. SLE without root: request via your
   admin/dev-tools channel.
-- **tmux** on Ubuntu/macOS — `sudo apt install tmux` / `brew install tmux`.
-  (On `suse` the bootstrap installs a static binary automatically.)
+- **tmux** on Ubuntu — `sudo apt install tmux`. (On `suse` the bootstrap
+  installs a static binary automatically; on `mac` it comes via the Homebrew
+  step below.)
 - **Claude Code** — installs via its native installer, not mise:
 
   ```sh
   curl -fsSL https://claude.ai/install.sh | bash
   ```
 
-### macOS extras (Homebrew: GUI apps and fonts only)
+### macOS extras (Homebrew: GUI apps, fonts, tmux — nothing else)
+
+If Homebrew is present, the bootstrap installs these automatically
+(`run_once_after_25-macos-apps`); otherwise install brew first
+(https://brew.sh), then:
 
 ```sh
-brew install --cask wezterm font-jetbrains-mono-nerd-font
+brew install tmux
+brew install --cask wezterm ghostty font-caskaydia-cove-nerd-font font-caskaydia-mono-nerd-font
 ```
 
-(cmux, if preferred over WezTerm, also installs via its own release — see
-https://github.com/manaflow-ai/cmux.)
+Both terminal frontends are configured the same way — CaskaydiaMono Nerd
+Font (Cascadia Code), **bold as the default weight** — via the managed
+`~/.config/wezterm/wezterm.lua` and `~/.config/ghostty/config`. Try both,
+keep one, drop the other from the brew script. (cmux, if preferred, installs
+via its own release — see https://github.com/manaflow-ai/cmux.)
 
 **Important:** CLI dev tools are owned by mise, not brew. If brew-installed
 duplicates exist (node, python, ripgrep, fd, fzf, delta, neovim, …),
@@ -135,9 +144,12 @@ home/
 ├── dot_config/
 │   ├── shell/common.sh        # shared aliases/env for both shells
 │   ├── mise/config.toml       # the global toolchain — edit to add tools
-│   └── nvim/init.lua          # single-file kickstart-derived config
+│   ├── nvim/init.lua          # single-file kickstart-derived config
+│   ├── wezterm/wezterm.lua    # macOS-only terminal frontend (bold Caskaydia)
+│   └── ghostty/config         # ditto, for Ghostty
 └── .chezmoiscripts/
     ├── run_once_before_10-install-mise.sh.tmpl
     ├── run_once_after_20-mise-install.sh.tmpl
-    └── run_once_after_30-checks.sh.tmpl   # compiler/tmux/claude checks
+    ├── run_once_after_25-macos-apps.sh.tmpl   # brew: tmux, wezterm, fonts
+    └── run_once_after_30-checks.sh.tmpl       # compiler/tmux/claude checks
 ```
