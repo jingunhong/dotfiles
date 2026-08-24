@@ -11,6 +11,12 @@ case ":$PATH:" in
   *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
 
+# Binaries from `cargo install`; rustc/cargo themselves come via mise shims.
+case ":$PATH:" in
+  *":$HOME/.cargo/bin:"*) ;;
+  *) export PATH="$HOME/.cargo/bin:$PATH" ;;
+esac
+
 # SSH from a terminal the host's terminfo db doesn't know (e.g. Ghostty's
 # xterm-ghostty on SLE) breaks backspace/arrows in every curses app; fall
 # back to a universally known TERM. The real fix is copying the compiled
